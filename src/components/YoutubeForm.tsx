@@ -10,16 +10,20 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control } = useForm<IFormInput>();
+    const { register, control, handleSubmit } = useForm<IFormInput>();
 
     // can use register like this: destructed on the component
     // const { name, onBlur, onChange, ref } = register("username");
     // Or can directly destructure it in the input field
 
     renderCount++
+
+    const onSubmit = (data: IFormInput) => {
+        console.log("formData: ", data)
+    }
     return (
         <div className="formBody">
-            <form className="form">
+            <form onSubmit={handleSubmit(onSubmit)} className="form">
                 <h1 style={{ color: '#f0f0f0', fontSize: '3rem', marginBottom: '1.4rem' }}>Youtube Form {renderCount}</h1>
                 <label className="label" htmlFor="username">Username</label>
                 <input
@@ -27,7 +31,12 @@ const YoutubeForm = () => {
                     id="username"
                     type="text"
                     {
-                    ...register("username")
+                    ...register("username", {
+                        required: {
+                            value: true,
+                            message: "Username is required"
+                        }
+                    })
                     }
                 />
 
@@ -48,7 +57,12 @@ const YoutubeForm = () => {
                     id="email"
                     type="text"
                     {
-                    ...register("email")
+                    ...register("email", {
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                            message: "Invalid Email"
+                        }
+                    })
                     }
                 />
 
