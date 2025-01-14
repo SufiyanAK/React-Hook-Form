@@ -1,18 +1,70 @@
+import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+
+interface IFormInput {
+    username: string;
+    email: string;
+    channel: string;
+}
+
+let renderCount: number = 0;
+
 const YoutubeForm = () => {
+    const { register, control } = useForm<IFormInput>();
+
+    // can use register like this: destructed on the component
+    // const { name, onBlur, onChange, ref } = register("username");
+    // Or can directly destructure it in the input field
+
+    renderCount++
     return (
         <div className="formBody">
             <form className="form">
+                <h1 style={{ color: '#f0f0f0', fontSize: '3rem', marginBottom: '1.4rem' }}>Youtube Form {renderCount}</h1>
                 <label className="label" htmlFor="username">Username</label>
-                <input className="input" id="username" name="username" type="text" />
+                <input
+                    className="input"
+                    id="username"
+                    type="text"
+                    {
+                    ...register("username")
+                    }
+                />
+
+                {/* Like the first one */}
+                {/* <input
+                    className="input"
+                    id="username"
+                    type="text"
+                    name={name}
+                    ref={ref}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    /> */}
 
                 <label className="label" htmlFor="email">Email</label>
-                <input className="input" id="email" name="email" type="text" />
+                <input
+                    className="input"
+                    id="email"
+                    type="text"
+                    {
+                    ...register("email")
+                    }
+                />
 
                 <label className="label" htmlFor="channel">Channel</label>
-                <input className="input" id="channel" name="channel" type="text" />
+                <input
+                    className="input"
+                    id="channel"
+                    type="text"
+                    {
+                    ...register("channel")
+                    }
+                />
 
                 <button className="submitBtn">Submit</button>
             </form>
+            <DevTool control={control} />
         </div>
     )
 }
