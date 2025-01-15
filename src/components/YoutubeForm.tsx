@@ -1,5 +1,6 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { useEffect } from "react";
 
 interface IFormInput {
     username: string;
@@ -18,7 +19,7 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+    const { register, control, handleSubmit, formState: { errors }, watch } = useForm<IFormInput>({
         defaultValues: {
             username: "Batman",
             email: "",
@@ -37,7 +38,16 @@ const YoutubeForm = () => {
     const { fields, append, remove } = useFieldArray({
         name: "phNumbers",
         control,
-    })
+    });
+
+    // By this you can optimize it and prevents from re-rendering
+    useEffect(() => {
+        watch((data) => {
+            console.log(data)
+        })
+    }, [watch])
+    // It Accepts array of strings to watch
+    // const watchUsername = watch(["username", "email", "channel", "social.facebook"]);
 
     // can use register like this: destructed on the component
     // const { name, onBlur, onChange, ref } = register("username");
@@ -52,6 +62,7 @@ const YoutubeForm = () => {
         <div className="formBody">
             <form onSubmit={handleSubmit(onSubmit)} className="form">
                 <h1 style={{ color: '#f0f0f0', fontSize: '3rem', marginBottom: '1.4rem' }}>Youtube Form {renderCount}</h1>
+                {/* <h2 style={{ color: '#f0f0f0', fontSize: '2rem', marginBottom: '1.4rem' }}>Watched Value: {watchUsername}</h2> */}
 
                 <div className="formFields">
                     <label className="label" htmlFor="username">Username</label>
