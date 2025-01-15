@@ -11,6 +11,8 @@ interface IFormInput {
     },
     phoneNumbers: string[];
     phNumbers: Array<{ number: string }>;
+    age: number;
+    dob: Date;
 }
 
 let renderCount: number = 0;
@@ -27,6 +29,8 @@ const YoutubeForm = () => {
             },
             phoneNumbers: ["", ""],
             phNumbers: [{ number: "" }],
+            age: 0,
+            dob: new Date()
         }
     });
 
@@ -282,6 +286,69 @@ const YoutubeForm = () => {
                         ))}
                         <button className="addBtn" type="button" onClick={() => { append({ number: "" }) }}>Add phone number</button>
                     </div>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="age">Age</label>
+                    <input
+                        className="input"
+                        id="age"
+                        type="number"
+                        {
+                        ...register("age",
+                            {
+                                valueAsNumber: true,
+                                required: {
+                                    value: true,
+                                    message: "Age is required"
+                                },
+                                validate: {
+                                    notAdult: (fieldValue) => {
+                                        return fieldValue >= 18 || "You must be 18 or above"
+                                    }
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.age?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="dob">Date of birth</label>
+                    <input
+                        className="input"
+                        id="dob"
+                        type="date"
+                        {
+                        ...register("dob",
+                            {
+                                valueAsDate: true,
+                                required: {
+                                    value: true,
+                                    message: "Facebook Id is required"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.social?.facebook?.message}
+                    </p>
                 </div>
 
                 <button className="submitBtn">Submit</button>
