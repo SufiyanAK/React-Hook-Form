@@ -10,7 +10,7 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit } = useForm<IFormInput>();
+    const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
     // can use register like this: destructed on the component
     // const { name, onBlur, onChange, ref } = register("username");
@@ -39,6 +39,16 @@ const YoutubeForm = () => {
                     })
                     }
                 />
+                <p
+                    style={{
+                        color: 'red',
+                        width: '100%',
+                        fontSize: '1.5rem',
+                        marginBottom: '1.5rem'
+                    }}
+                >
+                    {errors.username?.message}
+                </p>
 
                 {/* Like the first one */}
                 {/* <input
@@ -65,6 +75,16 @@ const YoutubeForm = () => {
                     })
                     }
                 />
+                <p
+                    style={{
+                        color: 'red',
+                        width: '100%',
+                        fontSize: '1.5rem',
+                        marginBottom: '1.5rem'
+                    }}
+                >
+                    {errors.email?.message}
+                </p>
 
                 <label className="label" htmlFor="channel">Channel</label>
                 <input
@@ -72,9 +92,26 @@ const YoutubeForm = () => {
                     id="channel"
                     type="text"
                     {
-                    ...register("channel")
+                    ...register("channel",
+                        {
+                            required: {
+                                value: true,
+                                message: "Channel is required"
+                            }
+                        }
+                    )
                     }
                 />
+                <p
+                    style={{
+                        color: 'red',
+                        width: '100%',
+                        fontSize: '1.5rem',
+                        marginBottom: '1.5rem'
+                    }}
+                >
+                    {errors.channel?.message}
+                </p>
 
                 <button className="submitBtn">Submit</button>
             </form>
