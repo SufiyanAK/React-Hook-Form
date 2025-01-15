@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 interface IFormInput {
@@ -10,6 +10,7 @@ interface IFormInput {
         twitter: string;
     },
     phoneNumbers: string[];
+    phNumbers: Array<{ number: string }>;
 }
 
 let renderCount: number = 0;
@@ -24,9 +25,15 @@ const YoutubeForm = () => {
                 facebook: "",
                 twitter: ""
             },
-            phoneNumbers: ["", ""]
+            phoneNumbers: ["", ""],
+            phNumbers: [{ number: "" }],
         }
     });
+
+    const { fields, append, remove } = useFieldArray({
+        name: "phNumbers",
+        control,
+    })
 
     // can use register like this: destructed on the component
     // const { name, onBlur, onChange, ref } = register("username");
@@ -262,10 +269,25 @@ const YoutubeForm = () => {
                     </p>
                 </div>
 
+                <div className="formFields">
+                    <label className="label">List of phone numbers</label>
+                    <div>
+                        {fields.map((field, index) => (
+                            <div className="formControl" key={field.id}>
+                                <input className="input" type="text" {...register(`phNumbers.${index}.number` as const,)} />
+                                {
+                                    index > 0 && <button className="removeBtn" type="button" onClick={() => { remove(index) }}>Remove</button>
+                                }
+                            </div>
+                        ))}
+                        <button className="addBtn" type="button" onClick={() => { append({ number: "" }) }}>Add phone number</button>
+                    </div>
+                </div>
+
                 <button className="submitBtn">Submit</button>
-            </form>
+            </form >
             <DevTool control={control} />
-        </div>
+        </div >
     )
 }
 

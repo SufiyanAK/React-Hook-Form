@@ -14,7 +14,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   background-color: #0f0f0f;
 }
 
@@ -70,5 +71,29 @@ body {
   border-radius: 5px;
   background-color: #2f2f2f;
   color: #f0f0f0;
+  cursor: pointer;
+}
+
+.addBtn {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.75rem;
+  border: 1px solid #0f0f0f;
+  border-radius: 5px;
+  background-color: green;
+  color: #f0f0f0;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.removeBtn {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.75rem;
+  border: 1px solid #0f0f0f;
+  border-radius: 5px;
+  background-color: red;
+  color: #f0f0f0;
+  margin-bottom: 1rem;
   cursor: pointer;
 }
