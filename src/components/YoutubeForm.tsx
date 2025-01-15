@@ -5,12 +5,28 @@ interface IFormInput {
     username: string;
     email: string;
     channel: string;
+    social: {
+        facebook: string;
+        twitter: string;
+    },
+    phoneNumbers: string[];
 }
 
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>();
+    const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+        defaultValues: {
+            username: "Batman",
+            email: "",
+            channel: "",
+            social: {
+                facebook: "",
+                twitter: ""
+            },
+            phoneNumbers: ["", ""]
+        }
+    });
 
     // can use register like this: destructed on the component
     // const { name, onBlur, onChange, ref } = register("username");
@@ -25,33 +41,34 @@ const YoutubeForm = () => {
         <div className="formBody">
             <form onSubmit={handleSubmit(onSubmit)} className="form">
                 <h1 style={{ color: '#f0f0f0', fontSize: '3rem', marginBottom: '1.4rem' }}>Youtube Form {renderCount}</h1>
-                <label className="label" htmlFor="username">Username</label>
-                <input
-                    className="input"
-                    id="username"
-                    type="text"
-                    {
-                    ...register("username", {
-                        required: {
-                            value: true,
-                            message: "Username is required"
-                        }
-                    })
-                    }
-                />
-                <p
-                    style={{
-                        color: 'red',
-                        width: '100%',
-                        fontSize: '1.5rem',
-                        marginBottom: '1.5rem'
-                    }}
-                >
-                    {errors.username?.message}
-                </p>
 
-                {/* Like the first one */}
-                {/* <input
+                <div className="formFields">
+                    <label className="label" htmlFor="username">Username</label>
+                    <input
+                        className="input"
+                        id="username"
+                        type="text"
+                        {
+                        ...register("username", {
+                            required: {
+                                value: true,
+                                message: "Username is required"
+                            }
+                        })
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.username?.message}
+                    </p>
+
+                    {/* Like the first one */}
+                    {/* <input
                     className="input"
                     id="username"
                     type="text"
@@ -60,69 +77,190 @@ const YoutubeForm = () => {
                     onBlur={onBlur}
                     onChange={onChange}
                     /> */}
+                </div>
 
-                <label className="label" htmlFor="email">Email</label>
-                <input
-                    className="input"
-                    id="email"
-                    type="text"
-                    {
-                    ...register("email", {
-                        pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                            message: "Invalid Email"
-                        },
-                        validate: {
-                            notAdmin: (fieldValue) => {
-                                return fieldValue !== "admin@example.com" || "Enter a valid Email address"
-                            },
-                            notGmail: (fieldValue) => {
-                                return !fieldValue.endsWith("@hotmail.com") || "Enter a valid Domain"
-                            },
-                            // validate: (fieldValue) => {
-                            //     return fieldValue !== "admin@example.com" || "Enter a valid Email address"
-                            // }
-                        }
-                    })
-                    }
-                />
-                <p
-                    style={{
-                        color: 'red',
-                        width: '100%',
-                        fontSize: '1.5rem',
-                        marginBottom: '1.5rem'
-                    }}
-                >
-                    {errors.email?.message}
-                </p>
-
-                <label className="label" htmlFor="channel">Channel</label>
-                <input
-                    className="input"
-                    id="channel"
-                    type="text"
-                    {
-                    ...register("channel",
+                <div className="formFields">
+                    <label className="label" htmlFor="email">Email</label>
+                    <input
+                        className="input"
+                        id="email"
+                        type="text"
                         {
-                            required: {
-                                value: true,
-                                message: "Channel is required"
+                        ...register("email", {
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                message: "Invalid Email"
+                            },
+                            validate: {
+                                notAdmin: (fieldValue) => {
+                                    return fieldValue !== "admin@example.com" || "Enter a valid Email address"
+                                },
+                                notGmail: (fieldValue) => {
+                                    return !fieldValue.endsWith("@hotmail.com") || "Enter a valid Domain"
+                                },
+                                // validate: (fieldValue) => {
+                                //     return fieldValue !== "admin@example.com" || "Enter a valid Email address"
+                                // }
                             }
+                        })
                         }
-                    )
-                    }
-                />
-                <p
-                    style={{
-                        color: 'red',
-                        width: '100%',
-                        fontSize: '1.5rem',
-                        marginBottom: '1.5rem'
-                    }}
-                >
-                    {errors.channel?.message}
-                </p>
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.email?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="channel">Channel</label>
+                    <input
+                        className="input"
+                        id="channel"
+                        type="text"
+                        {
+                        ...register("channel",
+                            {
+                                required: {
+                                    value: true,
+                                    message: "Channel is required"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.channel?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="twitter">Twitter</label>
+                    <input
+                        className="input"
+                        id="twitter"
+                        type="text"
+                        {
+                        ...register("social.twitter",
+                            {
+                                required: {
+                                    value: true,
+                                    message: "Twitter Name Is Required"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.social?.twitter?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="facebook">Facebook</label>
+                    <input
+                        className="input"
+                        id="facebook"
+                        type="text"
+                        {
+                        ...register("social.facebook",
+                            {
+                                required: {
+                                    value: true,
+                                    message: "Facebook Id is required"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.social?.facebook?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="primaryPhoneNumber">Phone Number</label>
+                    <input
+                        className="input"
+                        id="primaryPhoneNumber"
+                        type="text"
+                        {
+                        ...register("phoneNumbers.0",
+                            {
+                                required: {
+                                    value: true,
+                                    message: "Primary Phone Number is required"
+                                },
+                                validate: (fieldValue) => {
+                                    return fieldValue.length > 10 || "Phone number must be 11 digit"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.phoneNumbers?.[0]?.message}
+                    </p>
+                </div>
+
+                <div className="formFields">
+                    <label className="label" htmlFor="secondaryPhoneNumber">Phone Number(In case of emergency)</label>
+                    <input
+                        className="input"
+                        id="secondaryPhoneNumber"
+                        type="text"
+                        {
+                        ...register("phoneNumbers.1",
+                            {
+                                required: {
+                                    value: true,
+                                    message: "Secondary Phone Number is required"
+                                },
+                                validate: (fieldValue) => {
+                                    return fieldValue.length > 10 || "Phone number must be 11 digit"
+                                }
+                            }
+                        )
+                        }
+                    />
+                    <p
+                        style={{
+                            color: 'red',
+                            width: '100%',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {errors.phoneNumbers?.[1]?.message}
+                    </p>
+                </div>
 
                 <button className="submitBtn">Submit</button>
             </form>
