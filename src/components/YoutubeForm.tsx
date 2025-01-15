@@ -71,6 +71,17 @@ const YoutubeForm = () => {
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                             message: "Invalid Email"
+                        },
+                        validate: {
+                            notAdmin: (fieldValue) => {
+                                return fieldValue !== "admin@example.com" || "Enter a valid Email address"
+                            },
+                            notGmail: (fieldValue) => {
+                                return !fieldValue.endsWith("@hotmail.com") || "Enter a valid Domain"
+                            },
+                            // validate: (fieldValue) => {
+                            //     return fieldValue !== "admin@example.com" || "Enter a valid Email address"
+                            // }
                         }
                     })
                     }
