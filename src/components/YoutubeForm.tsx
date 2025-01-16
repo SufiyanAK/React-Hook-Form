@@ -1,4 +1,4 @@
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, FieldErrors } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useEffect } from "react";
 
@@ -19,7 +19,7 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<IFormInput>({
+    const { register, control, handleSubmit, formState: { errors, isDirty, isValid }, watch, getValues, setValue } = useForm<IFormInput>({
         defaultValues: {
             username: "Batman",
             email: "",
@@ -58,9 +58,14 @@ const YoutubeForm = () => {
     const onSubmit = (data: IFormInput) => {
         console.log("formData: ", data)
     }
+
+    const onError = (error: FieldErrors<IFormInput>) => {
+        console.log("Error: ", error)
+    }
+
     return (
         <div className="formBody">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <form onSubmit={handleSubmit(onSubmit, onError)} className="form">
                 <h1 style={{ color: '#f0f0f0', fontSize: '3rem', marginBottom: '1.4rem' }}>Youtube Form {renderCount}</h1>
                 {/* <h2 style={{ color: '#f0f0f0', fontSize: '2rem', marginBottom: '1.4rem' }}>Watched Value: {watchUsername}</h2> */}
 
@@ -362,7 +367,7 @@ const YoutubeForm = () => {
                     </p>
                 </div>
 
-                <button className="submitBtn">Submit</button>
+                <button disabled={!isDirty || !isValid} className="submitBtn">Submit</button>
                 <button type="button" onClick={() => { console.log("get Values: ", getValues()) }} className="submitBtn">Get Values</button>
                 <button type="button" onClick={() => { setValue('age', 45) }} className="submitBtn">Set Values</button>
             </form >
