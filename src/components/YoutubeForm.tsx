@@ -19,7 +19,7 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit, formState: { errors }, watch } = useForm<IFormInput>({
+    const { register, control, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<IFormInput>({
         defaultValues: {
             username: "Batman",
             email: "",
@@ -363,6 +363,8 @@ const YoutubeForm = () => {
                 </div>
 
                 <button className="submitBtn">Submit</button>
+                <button type="button" onClick={() => { console.log("get Values: ", getValues()) }} className="submitBtn">Get Values</button>
+                <button type="button" onClick={() => { setValue('age', 45) }} className="submitBtn">Set Values</button>
             </form >
             <DevTool control={control} />
         </div >
