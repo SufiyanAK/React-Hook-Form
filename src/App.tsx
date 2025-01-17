@@ -1,9 +1,9 @@
-import ZodForm from "./components/ZodForm"
+import FormRerender from "./components/FormRerender"
 
 const App = () => {
   return (
     <div className="body">
-      <ZodForm />
+      <FormRerender />
     </div>
   )
 }
