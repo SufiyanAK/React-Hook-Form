@@ -19,7 +19,7 @@ interface IFormInput {
 let renderCount: number = 0;
 
 const YoutubeForm = () => {
-    const { register, control, handleSubmit, formState: { errors, isDirty, isValid }, watch, getValues, setValue } = useForm<IFormInput>({
+    const { register, control, handleSubmit, formState: { errors, isDirty, isValid, isSubmitSuccessful }, watch, getValues, setValue, reset, trigger } = useForm<IFormInput>({
         defaultValues: {
             username: "Batman",
             email: "",
@@ -32,7 +32,8 @@ const YoutubeForm = () => {
             phNumbers: [{ number: "" }],
             age: 0,
             dob: new Date()
-        }
+        },
+        mode: "onBlur"
     });
 
     const { fields, append, remove } = useFieldArray({
@@ -62,6 +63,12 @@ const YoutubeForm = () => {
     const onError = (error: FieldErrors<IFormInput>) => {
         console.log("Error: ", error)
     }
+
+    useEffect(() => {
+        if (isSubmitSuccessful) {
+            reset()
+        }
+    }, [isSubmitSuccessful, reset])
 
     return (
         <div className="formBody">
@@ -370,6 +377,7 @@ const YoutubeForm = () => {
                 <button disabled={!isDirty || !isValid} className="submitBtn">Submit</button>
                 <button type="button" onClick={() => { console.log("get Values: ", getValues()) }} className="submitBtn">Get Values</button>
                 <button type="button" onClick={() => { setValue('age', 45) }} className="submitBtn">Set Values</button>
+                <button type="button" onClick={() => { trigger("phoneNumbers") }} className="submitBtn">Validate</button>
             </form >
             <DevTool control={control} />
         </div >
