@@ -1,9 +1,9 @@
-import YoutubeForm from "./components/YoutubeForm"
+import YupForm from "./components/YupForm"
 
 const App = () => {
   return (
     <div className="body">
-      <YoutubeForm />
+      <YupForm />
     </div>
   )
 }
