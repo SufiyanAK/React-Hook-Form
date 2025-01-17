@@ -1,9 +1,9 @@
-import YupForm from "./components/YupForm"
+import ZodForm from "./components/ZodForm"
 
 const App = () => {
   return (
     <div className="body">
-      <YupForm />
+      <ZodForm />
     </div>
   )
 }
